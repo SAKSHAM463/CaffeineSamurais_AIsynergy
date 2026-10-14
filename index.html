@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beyond the Fort · Gwalior — Heritage Tourism Platform</title>
+  <meta name="description" content="Beyond the Fort: a verified, crowd-aware heritage events and guide platform for Gwalior. Case workflow, problem framing, SRS and live prototype.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Yatra+One&family=Tiro+Devanagari+Hindi:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script type="importmap">
+    { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+  </script>
+</head>
+<body>
+
+  <!-- ============ LOADER ============ -->
+  <div id="loader" aria-hidden="true">
+    <div class="loader-inner">
+      <svg class="loader-arch" viewBox="0 0 200 220">
+        <path d="M20 210 V95 Q20 20 100 12 Q180 20 180 95 V210" />
+        <path d="M45 210 V100 Q45 45 100 38 Q155 45 155 100 V210" />
+      </svg>
+      <div class="loader-dev">ग्वालियर</div>
+      <div class="loader-bar"><span id="loader-progress"></span></div>
+      <p class="loader-caption">Lighting the diyas…</p>
+    </div>
+  </div>
+
+  <!-- 3D canvas -->
+  <canvas id="scene-canvas" aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
+  <div id="cursor" aria-hidden="true"><span></span></div>
+  <div id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- ============ NAV ============ -->
+  <header id="site-header">
+    <a href="#hero-section" class="brand">
+      <span class="brand-mark">◈</span>
+      <span class="brand-text">Beyond<em>the</em>Fort</span>
+    </a>
+    <nav id="main-nav" aria-label="Main">
+      <a href="#problem-section">Problem</a>
+      <a href="#workflow-section">Workflow</a>
+      <a href="#framing-section">Framings</a>
+      <a href="#events-section">What's On</a>
+      <a href="#guides-section">Guides</a>
+      <a href="#feasibility-section">Feasibility</a>
+      <a href="#srs-section">SRS</a>
+    </nav>
+    <button id="menu-toggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
+  </header>
+
+  <main id="smooth-content">
+
+    <!-- ============ HERO ============ -->
+    <section id="hero-section" class="panel hero">
+      <div class="hero-meta reveal-up">
+        <span class="pill">Case 04 · Tourism</span>
+        <span class="pill pill-ghost">AI Synergy Hackathon 2026 · Round 1</span>
+      </div>
+      <p class="hero-dev reveal-up">ग्वालियर · मध्य प्रदेश</p>
+      <h1 class="hero-title" aria-label="Beyond the Fort">
+        <span class="line"><span class="split">Beyond</span></span>
+        <span class="line line-italic"><span class="split">the</span></span>
+        <span class="line"><span class="split">Fort</span></span>
+      </h1>
+      <p class="hero-sub reveal-up">Gwalior has plenty of heritage and plenty of events. What it lacks is <strong>spread of attention</strong> and a <strong>backup plan</strong>. When the one big event is full, the visitor has nowhere else to go — we are building the somewhere else.</p>
+      <div class="hero-cta reveal-up">
+        <a href="#events-section" class="btn btn-gold magnetic"><i class="fa-solid fa-calendar-days"></i> See what's on today</a>
+        <a href="#workflow-section" class="btn btn-line magnetic">The complete workflow <i class="fa-solid fa-arrow-down"></i></a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><b data-count="67">0</b><i>%</i><span>of tracked visits at just two attractions</span></div>
+        <div class="stat"><b data-count="8">0</b><i>h</i><span>max time most day-visitors have</span></div>
+        <div class="stat"><b data-count="8">0</b><i>km</i><span>lesser-known sites from the main corridor</span></div>
+      </div>
+      <div class="scroll-hint"><span>Scroll to ascend the fort</span><i></i></div>
+    </section>
+
+    <!-- ============ MARQUEE ============ -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>Tansen Samaroh</span><b>✦</b><span>Teli ka Mandir</span><b>✦</b><span>Sas-Bahu</span><b>✦</b><span>Gujari Mahal</span><b>✦</b><span>Gopachal Parvat</span><b>✦</b><span>Jai Vilas</span><b>✦</b><span>Lashkar Bazaar</span><b>✦</b><span>Stone Carvers of Murar</span><b>✦</b>
+        <span>Tansen Samaroh</span><b>✦</b><span>Teli ka Mandir</span><b>✦</b><span>Sas-Bahu</span><b>✦</b><span>Gujari Mahal</span><b>✦</b><span>Gopachal Parvat</span><b>✦</b><span>Jai Vilas</span><b>✦</b><span>Lashkar Bazaar</span><b>✦</b><span>Stone Carvers of Murar</span><b>✦</b>
+      </div>
+    </div>
+
+    <!-- ============ PROBLEM ============ -->
+    <section id="problem-section" class="panel">
+      <div class="section-head">
+        <span class="kicker"><em>01</em> The core problem</span>
+        <h2 class="section-title split-words">Two failures that <span class="accent">feed each other</span></h2>
+      </div>
+      <div class="loop-wrap">
+        <article class="tilt-card problem-card" data-tilt>
+          <div class="card-num">१</div>
+          <h3>Exposure</h3>
+          <p>Tansen Samaroh is famous — lots of people know about it and a good number attend. Smaller events in the same city are often just as good, but nobody hears about them. Small operators depend on word-of-mouth and social media.</p>
+          <ul class="mini-list"><li>67% of visits at two attractions</li><li>Listings scattered across sites & social</li></ul>
+        </article>
+        <div class="loop-center" aria-hidden="true">
+          <svg viewBox="0 0 200 200" class="loop-svg">
+            <defs><marker id="arrowhead" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#e8b04a"/></marker></defs>
+            <path class="loop-path" d="M40 100 A60 60 0 0 1 160 100" marker-end="url(#arrowhead)"/>
+            <path class="loop-path" d="M160 100 A60 60 0 0 1 40 100" marker-end="url(#arrowhead)"/>
+          </svg>
+          <span class="loop-label">vicious<br>loop</span>
+        </div>
+        <article class="tilt-card problem-card" data-tilt>
+          <div class="card-num">२</div>
+          <h3>Availability</h3>
+          <p>When Tansen Samaroh is sold out or too crowded, the visitor has no second option. There's no single place to see what's on today, tomorrow or next week — so they leave, and the small events stay invisible.</p>
+          <ul class="mini-list"><li>5–8 hour day visits</li><li>No fallback when the headline is full</li></ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ EVIDENCE ============ -->
+    <section id="evidence-section" class="panel">
+      <div class="section-head">
+        <span class="kicker"><em>02</em> Case evidence pack</span>
+        <h2 class="section-title split-words">Signals, evidence, <span class="accent">and what stays uncertain</span></h2>
+      </div>
+      <div class="evidence-grid" id="evidence-grid"></div>
+    </section>
+
+    <!-- ============ WORKFLOW ============ -->
+    <section id="workflow-section" class="panel workflow">
+      <div class="section-head">
+        <span class="kicker"><em>03</em> The complete workflow</span>
+        <h2 class="section-title split-words">From ambiguous case <span class="accent">to buildable system</span></h2>
+        <p class="section-lede">Seven steps, each producing an artefact. Scroll sideways through the journey — every step is preserved in the AI reasoning trail.</p>
+      </div>
+      <div class="hscroll" id="hscroll">
+        <div class="hscroll-track" id="hscroll-track"></div>
+      </div>
+    </section>
+
+    <!-- ============ PLATFORM FLOW ============ -->
+    <section id="userflow-section" class="panel">
+      <div class="section-head">
+        <span class="kicker"><em>04</em> Visitor journey</span>
+        <h2 class="section-title split-words">How the platform <span class="accent">behaves on the day</span></h2>
+      </div>
+      <ol class="flow-steps" id="flow-steps">
+        <li><i class="fa-solid fa-mobile-screen"></i><b>Arrive</b><span>Log in with phone (any country code) — or browse without an account.</span></li>
+        <li><i class="fa-solid fa-ticket"></i><b>Headline full?</b><span>Tansen Samaroh shows "Full". The board instantly surfaces nearby alternatives.</span></li>
+        <li><i class="fa-solid fa-filter"></i><b>Filter by time</b><span>Today / tomorrow / this week, within the hours the visitor actually has.</span></li>
+        <li><i class="fa-solid fa-shield-halved"></i><b>Trust labels</b><span>Every item tagged Verified, Stakeholder-provided or Inferred.</span></li>
+        <li><i class="fa-solid fa-route"></i><b>Map & route</b><span>Deep-link to maps with distance from the fort corridor.</span></li>
+        <li><i class="fa-solid fa-user-check"></i><b>Book a guide</b><span>Site-qualified, accountable guides — contact masked via platform.</span></li>
+        <li><i class="fa-solid fa-scale-balanced"></i><b>Spread, gently</b><span>Fragile sites are throttled; promotion rotates to avoid crowding.</span></li>
+      </ol>
+    </section>
+
+    <!-- ============ FRAMINGS ============ -->
+    <section id="framing-section" class="panel">
+      <div class="section-head">
+        <span class="kicker"><em>05</em> Compare plausible framings</span>
+        <h2 class="section-title split-words">Six ways to read the case. <span class="accent">We pick one.</span></h2>
+        <p class="section-lede">Adjust what matters to you — the ranking re-orders live. Evidence strength, feasibility in one round, and harm-avoidance are scored 1–5.</p>
+      </div>
+      <div class="weights" id="weights">
+        <label>Evidence <input type="range" min="0" max="5" value="4" data-w="evidence"><output>4</output></label>
+        <label>Feasibility <input type="range" min="0" max="5" value="3" data-w="feasible"><output>3</output></label>
+        <label>Local inclusion <input type="range" min="0" max="5" value="4" data-w="inclusion"><output>4</output></label>
+        <label>Harm-avoidance <input type="range" min="0" max="5" value="3" data-w="safety"><output>3</output></label>
+      </div>
+      <div class="framings" id="framings"></div>
+    </section>
+
+    <!-- ============ PROBLEM STATEMENT ============ -->
+    <section id="statement-section" class="panel statement">
+      <span class="kicker center"><em>06</em> The problem statement</span>
+      <blockquote class="statement-quote split-words">
+        Time-limited visitors to Gwalior have <span class="accent">no single, trustworthy place</span> to find what else is on <span class="accent">today, tomorrow or this week</span> — so when a headline event like Tansen Samaroh is full, they leave, and smaller verified events, guides and craftspeople stay invisible.
+      </blockquote>
+      <div class="statement-tags">
+        <span>Who: domestic & international visitors with 5–8 hours</span>
+        <span>Where: Gwalior heritage city</span>
+        <span>Why now: concentration at 2 sites = 67%</span>
+        <span>Measure: % of visits outside the top-2 attractions</span>
+      </div>
+    </section>
+
+    <!-- ============ EVENT BOARD ============ -->
+    <section id="events-section" class="panel">
+      <div class="section-head">
+        <span class="kicker"><em>07</em> Prototype · Event board</span>
+        <h2 class="section-title split-words">What's on in Gwalior <span class="accent">— and your plan B</span></h2>
+      </div>
+      <div class="board-controls">
+        <div class="seg" role="tablist" id="day-tabs">
+          <button class="active" data-day="0" role="tab">Today</button>
+          <button data-day="1" role="tab">Tomorrow</button>
+          <button data-day="7" role="tab">This week</button>
+        </div>
+        <div class="seg" id="cat-tabs">
+          <button class="active" data-cat="all">All</button>
+          <button data-cat="Music">Music</button>
+          <button data-cat="Heritage Walk">Walks</button>
+          <button data-cat="Craft">Craft</button>
+          <button data-cat="Food">Food</button>
+          <button data-cat="Theatre">Theatre</button>
+          <button data-cat="Festival">Festival</button>
+        </div>
+        <label class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="event-search" type="search" placeholder="Search venue, area…" aria-label="Search events"></label>
+      </div>
+      <div class="legend">
+        <span class="badge verified"><i class="fa-solid fa-circle-check"></i> Verified</span>
+        <span class="badge stakeholder"><i class="fa-solid fa-user-pen"></i> Stakeholder-provided</span>
+        <span class="badge inferred"><i class="fa-solid fa-wand-magic-sparkles"></i> Inferred recommendation</span>
+        <span class="legend-note">We never invent opening hours, facts or accessibility claims.</span>
+      </div>
+      <div class="event-grid" id="event-grid"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>
+    </section>
+
+    <!-- ============ GUIDES ============ -->
+    <section id="guides-section" class="panel">
+      <div class="section-head">
+        <span class="kicker"><em>08</em> Verified guides & craftspeople</span>
+        <h2 class="section-title split-words">Qualified for <em>this</em> site. <span class="accent">Accountable</span> on the day.</h2>
+        <p class="section-lede">A tourist doesn't need to know a person once produced a document. They need two checks — and neither requires storing a single Aadhaar number.</p>
+      </div>
+      <div class="two-checks">
+        <div class="check-card"><i class="fa-solid fa-graduation-cap"></i><h4>Check 1 · Qualified</h4><p>Credential confirmed with the <b>issuing body</b> (tourism board, artisan registry) — mapped to the specific sites they may guide.</p></div>
+        <div class="check-card"><i class="fa-solid fa-handshake-angle"></i><h4>Check 2 · Accountable</h4><p>Masked platform contact, trip sharing, ratings tied to completed tours, and a working complaint channel.</p></div>
+        <div class="check-card danger"><i class="fa-solid fa-ban"></i><h4>We do not collect</h4><p>Aadhaar, PAN or driving-licence copies. Holding them is legally constrained (2018 Supreme Court ruling) and adds risk, not safety.</p></div>
+      </div>
+      <div class="guide-grid" id="guide-grid"></div>
+    </section>
+
+    <!-- ============ FEASIBILITY ============ -->
+    <section id="feasibility-section" class="panel">
+      <div class="section-head">
+        <span class="kicker"><em>09</em> Feasibility review</span>
+        <h2 class="section-title split-words">Is the proposed platform <span class="accent">doable?</span></h2>
+        <p class="section-lede">Most of it, yes. One part cannot be rented from WhatsApp or Telegram, and one part carries real legal risk. Here's the honest verdict.</p>
+      </div>
+      <div class="verdict-grid" id="verdict-grid"></div>
+    </section>
+
+    <!-- ============ LOGIN DEMO ============ -->
+    <section id="login-section" class="panel login-panel">
+      <div class="login-copy">
+        <span class="kicker"><em>10</em> Phone login · every country code</span>
+        <h2 class="section-title split-words">One number. <span class="accent">Any country.</span></h2>
+        <p class="section-lede">International visitors shouldn't be locked out by a +91-only field. The login accepts E.164 numbers from every country code. <strong>This is a front-end demo</strong> — a real build sends OTP through an SMS provider on the server side.</p>
+      </div>
+      <form class="login-card tilt-card" id="login-form" data-tilt novalidate>
+        <h3>Sign in</h3>
+        <label for="cc-select">Country</label>
+        <select id="cc-select"></select>
+        <label for="phone-input">Mobile number</label>
+        <div class="phone-row"><span id="cc-prefix">+91</span><input id="phone-input" type="tel" inputmode="numeric" placeholder="98765 43210" autocomplete="tel-national"></div>
+        <button type="submit" class="btn btn-gold w-full">Send code</button>
+        <div class="otp-row" id="otp-row" hidden>
+          <label>Enter demo code <small>(any 4 digits)</small></label>
+          <div class="otp-inputs"><input maxlength="1" inputmode="numeric" aria-label="Digit 1"><input maxlength="1" inputmode="numeric" aria-label="Digit 2"><input maxlength="1" inputmode="numeric" aria-label="Digit 3"><input maxlength="1" inputmode="numeric" aria-label="Digit 4"></div>
+        </div>
+        <p class="form-msg" id="login-msg" role="status"></p>
+      </form>
+    </section>
+
+    <!-- ============ SRS ============ -->
+    <section id="srs-section" class="panel">
+      <div class="section-head">
+        <span class="kicker"><em>11</em> SRS & implementation plan</span>
+        <h2 class="section-title split-words">What we build, <span class="accent">in what order</span></h2>
+      </div>
+      <div class="srs-layout">
+        <div class="srs-reqs">
+          <h3 class="srs-h">Functional requirements</h3>
+          <div class="req" data-tilt><code>FR-01</code><p>Event board filtered by today / tomorrow / week, category and distance from the fort corridor.</p></div>
+          <div class="req" data-tilt><code>FR-02</code><p>When an event is marked full, show ≥3 alternatives within the visitor's remaining time window.</p></div>
+          <div class="req" data-tilt><code>FR-03</code><p>Every listing carries a provenance label: verified / stakeholder-provided / inferred, with last-checked date.</p></div>
+          <div class="req" data-tilt><code>FR-04</code><p>Stale data (&gt; 7 days unchecked) is visibly flagged and demoted — never silently shown as current.</p></div>
+          <div class="req" data-tilt><code>FR-05</code><p>Guide listings show site-specific qualification and accountability, never ID documents.</p></div>
+          <div class="req" data-tilt><code>FR-06</code><p>Sensitive and fragile locations show local norms and are subject to promotion caps.</p></div>
+          <div class="req" data-tilt><code>FR-07</code><p>Phone login with full international country-code support; browsing works without login.</p></div>
+          <h3 class="srs-h">Non-functional</h3>
+          <div class="req" data-tilt><code>NFR</code><p>Mobile-first, &lt; 2s on 3G, bilingual Hindi/English, DPDP-Act-aligned data minimisation.</p></div>
+        </div>
+        <div class="roadmap" id="roadmap">
+          <div class="road-line"><span></span></div>
+          <div class="road-item"><b>Phase 1 · Weeks 1–2</b><h4>Event board + provenance</h4><p>Schema, operator submission form, verification queue, today/tomorrow/week views.</p></div>
+          <div class="road-item"><b>Phase 2 · Weeks 3–4</b><h4>Plan-B engine</h4><p>"Full" signal, time-window filter, distance ranking, maps deep-links.</p></div>
+          <div class="road-item"><b>Phase 3 · Weeks 5–6</b><h4>Guides & craftspeople</h4><p>Issuer-confirmed credentials, masked contact relay, ratings tied to tours.</p></div>
+          <div class="road-item"><b>Phase 4 · Weeks 7–8</b><h4>Crowd-aware promotion</h4><p>Visitor caps per fragile site, rotation, resident feedback channel.</p></div>
+          <div class="road-item"><b>Pilot</b><h4>Measure the spread</h4><p>Target: share of visits outside the top-2 attractions rises from 33% → 45%.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ AI TRAIL ============ -->
+    <section id="trail-section" class="panel">
+      <div class="section-head">
+        <span class="kicker"><em>12</em> AI reasoning trail</span>
+        <h2 class="section-title split-words">Plan · Act · Observe · <span class="accent">Verify · Rank</span></h2>
+        <p class="section-lede">The reason-act loop that materially shaped our decisions — preserved so judges can audit it.</p>
+      </div>
+      <div class="terminal" id="terminal">
+        <div class="term-bar"><i></i><i></i><i></i><span>reasoning-trail.log</span></div>
+        <pre id="term-body"></pre>
+      </div>
+    </section>
+
+    <!-- ============ BOUNDARY / FOOTER ============ -->
+    <section id="boundary-section" class="panel boundary">
+      <div class="boundary-card">
+        <i class="fa-solid fa-landmark-dome"></i>
+        <h3>Our boundary</h3>
+        <p>We do not invent historical facts, opening hours or accessibility claims. Every listing clearly distinguishes <b>verified information</b>, <b>stakeholder-provided information</b> and <b>inferred recommendations</b>. Sample data on this page is illustrative.</p>
+      </div>
+    </section>
+
+    <footer id="site-footer">
+      <div class="footer-big">अतिथि देवो भव</div>
+      <p>Beyond the Fort · Gwalior · Case 04 — AI Synergy Hackathon 2026, Round 1</p>
+      <a href="#hero-section" class="btn btn-line magnetic">Back to the ramparts <i class="fa-solid fa-arrow-up"></i></a>
+    </footer>
+  </main>
+
+  <!-- Event modal -->
+  <dialog id="event-modal">
+    <button class="modal-close" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+    <div id="modal-body"></div>
+  </dialog>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script type="module" src="js/scene.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
